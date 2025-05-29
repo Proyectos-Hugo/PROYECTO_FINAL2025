@@ -1,0 +1,20 @@
+
+
+Lo primero de todo después de haber clonado el repositorio: 
+
+1. ARCHIVOS A IDENTIFICAR: 
+
+    - eslint.config.mjs
+        LÍNEA 13 DEL CÓDIGO: AÑADIR // PARA COMENTAR LA LÍNEA. DEBE QUEDAR ASÍ:
+        //eslintPluginPrettierRecommended,
+    - tsconfig.json
+        LÍNEA 15 DEL CÓDIGO: CAMBIAR true POR false. LA LÍNEA DEBE QUEDAR ASÍ:
+        "strictNullChecks": false,
+
+2. INSTALACIONES:
+    Después del paso anterior, ejecutaremos los siguientes comandos en la terminal 
+    DENTRO del proyecto.
+    - npm install (Instalará todas las dependencias del proyecto)
+    - npm install @nestjs/typeorm typeorm mysql2  (Instalará la librería necesaria
+      para que se puedan relacionar los modelos con las tablas de la base de datos)
+    
