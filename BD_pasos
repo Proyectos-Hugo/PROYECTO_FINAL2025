@@ -90,3 +90,51 @@ INSERT INTO citas (id, dni_usuario, id_mascota, id_empleado, fecha, hora) VALUES
 ('C009', '89012345H', 'M008', 'E009', '2024-06-09', '18:00:00'),
 ('C010', '90123456I', 'M009', 'E010', '2024-06-10', '19:00:00');
 
+-- Tabla productos para tienda --
+CREATE TABLE db_peluqueria.productos(
+	id int not null primary key,
+	nombre varchar(50) not null,
+    descripcion varchar(500) not null,
+    precio int not null);
+
+-- Contenido de la tabla --
+INSERT INTO db_peluqueria.productos (id, nombre, descripcion, precio) VALUES
+(1, 'Champú Hipoalergénico', 'Champú suave para mascotas con piel sensible, sin fragancias ni colorantes.', 9.99),
+(2, 'Acondicionador de Aloe Vera', 'Hidrata el pelaje y facilita el cepillado, con extracto natural de aloe vera.', 8.50),
+(3, 'Cepillo Desenredante', 'Cepillo de cerdas suaves para eliminar nudos sin dañar la piel.', 12.00),
+(4, 'Cortaúñas Profesional', 'Cortaúñas de acero inoxidable con mango antideslizante.', 7.75),
+(5, 'Toallitas Húmedas para Mascotas', 'Toallitas suaves y sin alcohol para limpieza rápida de patas y pelaje.', 5.25),
+(6, 'Colonia para Perros', 'Fragancia ligera y duradera diseñada especialmente para perros.', 6.99),
+(7, 'Peine para Pulgas', 'Peine de dientes finos para eliminar pulgas y huevos del pelaje.', 4.99),
+(8, 'Champú Antipulgas', 'Champú medicado para eliminar pulgas y aliviar la picazón.', 11.30),
+(9, 'Secador de Mano para Mascotas', 'Secador de aire templado con boquillas ajustables.', 35.00),
+(10, 'Guante Quitapelo', 'Guante de silicona que elimina el pelo suelto mientras se acaricia al animal.', 9.00),
+(11, 'Acondicionador en Spray', 'Desenredante sin enjuague que deja el pelaje brillante y suave.', 10.50),
+(12, 'Champú en Espuma Seco', 'Limpieza rápida sin agua, ideal para viajes o entre baños.', 7.80),
+(13, 'Esmalte de Uñas para Mascotas', 'Esmalte no tóxico de secado rápido para decorar las uñas.', 6.50),
+(14, 'Tijeras de Peluquería Curvas', 'Tijeras de acero inoxidable con punta redondeada para mayor seguridad.', 15.90),
+(15, 'Máquina Cortapelo Profesional', 'Cortadora de pelo silenciosa y potente para uso doméstico o profesional.', 49.99),
+(16, 'Champú Blanqueador para Pelaje Claro', 'Realza el brillo natural del pelaje blanco o claro sin decolorar.', 10.25),
+(17, 'Bálsamo para Almohadillas', 'Protege e hidrata las almohadillas resecas o agrietadas.', 6.80),
+(18, 'Deslanador para Razas de Pelo Largo', 'Herramienta especial para retirar el subpelo muerto sin dañar el pelaje.', 13.70),
+(19, 'Spray Antinudos', 'Evita y elimina nudos fácilmente, ideal para razas de pelo largo.', 9.95),
+(20, 'Perfume Natural para Gatos', 'Fragancia delicada sin alcohol, especialmente formulada para gatos.', 6.30);
+
+-- AÑADIMOS LA COLUMNA TELEFONO A USUARIO --
+
+ALTER TABLE db_peluqueria.users 
+ADD COLUMN telefono int(9);
+
+-- AÑADIMOS NUMEROS A LOS USUARIOS --
+
+UPDATE db_peluqueria.users SET telefono = '612345678' WHERE dni = "06296212P";
+UPDATE db_peluqueria.users SET telefono = '698745123' WHERE dni = "12345678A";
+UPDATE db_peluqueria.users SET telefono = '654321987' WHERE dni = "23456789B";
+UPDATE db_peluqueria.users SET telefono = '699887766' WHERE dni = "34567890C";
+UPDATE db_peluqueria.users SET telefono = '645231890' WHERE dni = "45678901D";
+UPDATE db_peluqueria.users SET telefono = '688901234' WHERE dni = "56789012E";
+UPDATE db_peluqueria.users SET telefono = '677554433' WHERE dni = "78901234G";
+UPDATE db_peluqueria.users SET telefono = '656778899' WHERE dni = "67890123F";
+UPDATE db_peluqueria.users SET telefono = '622334455' WHERE dni = "89012345H";
+UPDATE db_peluqueria.users SET telefono = '633112244' WHERE dni = "90123456I";
+
