@@ -95,7 +95,7 @@ CREATE TABLE db_peluqueria.productos(
 	id int not null primary key,
 	nombre varchar(50) not null,
     descripcion varchar(500) not null,
-    precio int not null);
+    precio double not null);
 
 -- Contenido de la tabla --
 INSERT INTO db_peluqueria.productos (id, nombre, descripcion, precio) VALUES
