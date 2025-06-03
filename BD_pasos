@@ -1,5 +1,7 @@
 Comando para crear el usuario y darle persisos en una determinada base de datos: 
-
+DROP DATABASE db_peluqueria;
+CREATE DATABASE db_peluqueria;
+use db_peluqueria;
 CREATE USER 'franmp'@'localhost' IDENTIFIED WITH mysql_native_password BY '30092001';
 GRANT ALL PRIVILEGES ON db_peluqueria.* TO 'franmp'@'localhost';
 
