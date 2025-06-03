@@ -1,4 +1,5 @@
-CREATE DATABASE db_peluqueria_canina;
+drop database db_peluqueria_canina;
+ CREATE DATABASE db_peluqueria_canina;
 
 USE db_peluqueria_canina;
 
