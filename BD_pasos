@@ -1,142 +1,112 @@
-Comando para crear el usuario y darle persisos en una determinada base de datos: 
-DROP DATABASE db_peluqueria;
-CREATE DATABASE db_peluqueria;
-use db_peluqueria;
-CREATE USER 'franmp'@'localhost' IDENTIFIED WITH mysql_native_password BY '30092001';
-GRANT ALL PRIVILEGES ON db_peluqueria.* TO 'franmp'@'localhost';
+CREATE DATABASE db_peluqueria_canina;
 
+USE db_peluqueria_canina;
 
--- Tabla USERS (ID es el DNI)
-DROP TABLE IF EXISTS users;
-CREATE TABLE users (
-  dni VARCHAR(20) NOT NULL PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  email VARCHAR(100) NOT NULL UNIQUE,
-  password VARCHAR(100) NOT NULL
+--CREACION DE TABLAS
+DROP TABLE IF EXISTS CLIENTES;
+CREATE TABLE CLIENTES (
+    dni VARCHAR(20) PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    apellido VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    telefono VARCHAR(20)
 );
 
-INSERT INTO users (dni, name, email, password) VALUES
-('06296212P', 'Fran Moreno', 'franmorenopecofmp@gmail.com', '30092001'),
-('12345678A', 'Ana López', 'ana.lopez@email.com', 'ana123'),
-('23456789B', 'Carlos Pérez', 'carlos.perez@email.com', 'carlos456'),
-('34567890C', 'Lucía Gómez', 'lucia.gomez@email.com', 'lucia789'),
-('45678901D', 'Miguel Torres', 'miguel.torres@email.com', 'miguel321'),
-('56789012E', 'Sofía Ruiz', 'sofia.ruiz@email.com', 'sofia654'),
-('67890123F', 'David Fernández', 'david.fernandez@email.com', 'david987'),
-('78901234G', 'Elena Sánchez', 'elena.sanchez@email.com', 'elena111'),
-('89012345H', 'Javier Romero', 'javier.romero@email.com', 'javier222'),
-('90123456I', 'María Castro', 'maria.castro@email.com', 'maria333');
-
--- Tabla MASCOTAS
-CREATE TABLE mascotas (
-  id VARCHAR(20) NOT NULL PRIMARY KEY,
-  nombre VARCHAR(100) NOT NULL,
-  especie VARCHAR(50) NOT NULL,
-  raza VARCHAR(50),
-  edad INT,
-  dni_dueno VARCHAR(20) NOT NULL
+DROP TABLE IF EXISTS EMPLEADOS;
+CREATE TABLE EMPLEADOS (
+    dni VARCHAR(20) PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    apellido VARCHAR(50) NOT NULL,
+    especialidad VARCHAR(50),
+    telefono VARCHAR(20)
 );
 
-INSERT INTO mascotas (id, nombre, especie, raza, edad, dni_dueno) VALUES
-('M001', 'Rocky', 'Perro', 'Labrador', 5, '12345678A'),
-('M002', 'Misu', 'Gato', 'Siamés', 3, '23456789B'),
-('M003', 'Toby', 'Perro', 'Bulldog', 2, '34567890C'),
-('M004', 'Luna', 'Gato', 'Persa', 4, '45678901D'),
-('M005', 'Max', 'Perro', 'Pastor Alemán', 6, '56789012E'),
-('M006', 'Nala', 'Gato', 'Maine Coon', 1, '67890123F'),
-('M007', 'Coco', 'Perro', 'Beagle', 7, '78901234G'),
-('M008', 'Simba', 'Gato', 'Bengalí', 2, '89012345H'),
-('M009', 'Thor', 'Perro', 'Golden Retriever', 3, '90123456I'),
-('M010', 'Kiara', 'Gato', 'Angora', 5, '06296212P');
-
--- Tabla EMPLEADOS
-CREATE TABLE empleados (
-  id VARCHAR(20) NOT NULL PRIMARY KEY,
-  nombre VARCHAR(100) NOT NULL,
-  apellido VARCHAR(100) NOT NULL,
-  puesto VARCHAR(50) NOT NULL,
-  telefono VARCHAR(20)
+DROP TABLE IF EXISTS MASCOTAS;
+CREATE TABLE MASCOTAS (
+    id_mascota INT AUTO_INCREMENT PRIMARY KEY,
+    dni_cliente VARCHAR(20) NOT NULL,
+    nombre VARCHAR(50) NOT NULL,
+    raza VARCHAR(50),
+    edad INT,
+    FOREIGN KEY (dni_cliente) REFERENCES CLIENTES(dni)
 );
 
-INSERT INTO empleados (id, nombre, apellido, puesto, telefono) VALUES
-('E001', 'Laura', 'García', 'Veterinaria', '600111222'),
-('E002', 'Pedro', 'Martínez', 'Peluquero', '600222333'),
-('E003', 'Sara', 'López', 'Veterinaria', '600333444'),
-('E004', 'Juan', 'Sánchez', 'Peluquero', '600444555'),
-('E005', 'Marta', 'Díaz', 'Recepcionista', '600555666'),
-('E006', 'Luis', 'Fernández', 'Veterinario', '600666777'),
-('E007', 'Ana', 'Ruiz', 'Peluquera', '600777888'),
-('E008', 'Carlos', 'Moreno', 'Veterinario', '600888999'),
-('E009', 'Elena', 'Jiménez', 'Recepcionista', '600999000'),
-('E010', 'Jorge', 'Castro', 'Peluquero', '601000111');
-
--- Tabla CITAS
-CREATE TABLE citas (
-  id VARCHAR(20) NOT NULL PRIMARY KEY,
-  dni_usuario VARCHAR(20) NOT NULL,
-  id_mascota VARCHAR(20),
-  id_empleado VARCHAR(20) NOT NULL,
-  fecha DATE NOT NULL,
-  hora TIME NOT NULL
+DROP TABLE IF EXISTS CITAS;
+CREATE TABLE CITAS (
+    id_cita INT AUTO_INCREMENT PRIMARY KEY,
+    dni_cliente VARCHAR(20) NOT NULL,
+    dni_empleado VARCHAR(20) NOT NULL,
+    id_mascota INT NOT NULL,
+    fecha DATE NOT NULL,
+    hora TIME NOT NULL,
+    FOREIGN KEY (dni_cliente) REFERENCES CLIENTES(dni),
+    FOREIGN KEY (dni_empleado) REFERENCES EMPLEADOS(dni),
+    FOREIGN KEY (id_mascota) REFERENCES MASCOTAS(id_mascota)
 );
 
-INSERT INTO citas (id, dni_usuario, id_mascota, id_empleado, fecha, hora) VALUES
-('C001', '06296212P', 'M010', 'E001', '2024-06-01', '10:00:00'),
-('C002', '12345678A', 'M001', 'E002', '2024-06-02', '11:00:00'),
-('C003', '23456789B', 'M002', 'E003', '2024-06-03', '12:00:00'),
-('C004', '34567890C', 'M003', 'E004', '2024-06-04', '13:00:00'),
-('C005', '45678901D', 'M004', 'E005', '2024-06-05', '14:00:00'),
-('C006', '56789012E', 'M005', 'E006', '2024-06-06', '15:00:00'),
-('C007', '67890123F', 'M006', 'E007', '2024-06-07', '16:00:00'),
-('C008', '78901234G', 'M007', 'E008', '2024-06-08', '17:00:00'),
-('C009', '89012345H', 'M008', 'E009', '2024-06-09', '18:00:00'),
-('C010', '90123456I', 'M009', 'E010', '2024-06-10', '19:00:00');
+DROP TABLE IF EXISTS PRODUCTOS;
+CREATE TABLE PRODUCTOS (
+    id_producto INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    precio DECIMAL(10,2) NOT NULL,
+    stock INT NOT NULL
+);
 
--- Tabla productos para tienda --
-CREATE TABLE db_peluqueria.productos(
-	id int not null primary key,
-	nombre varchar(50) not null,
-    descripcion varchar(500) not null,
-    precio double not null);
+DROP TABLE IF EXISTS PEDIDOS;
+CREATE TABLE PEDIDOS (
+    id_pedido INT AUTO_INCREMENT PRIMARY KEY,
+    dni_cliente VARCHAR(20) NOT NULL,
+    fecha DATE NOT NULL,
+    FOREIGN KEY (dni_cliente) REFERENCES CLIENTES(dni)
+);
 
--- Contenido de la tabla --
-INSERT INTO db_peluqueria.productos (id, nombre, descripcion, precio) VALUES
-(1, 'Champú Hipoalergénico', 'Champú suave para mascotas con piel sensible, sin fragancias ni colorantes.', 9.99),
-(2, 'Acondicionador de Aloe Vera', 'Hidrata el pelaje y facilita el cepillado, con extracto natural de aloe vera.', 8.50),
-(3, 'Cepillo Desenredante', 'Cepillo de cerdas suaves para eliminar nudos sin dañar la piel.', 12.00),
-(4, 'Cortaúñas Profesional', 'Cortaúñas de acero inoxidable con mango antideslizante.', 7.75),
-(5, 'Toallitas Húmedas para Mascotas', 'Toallitas suaves y sin alcohol para limpieza rápida de patas y pelaje.', 5.25),
-(6, 'Colonia para Perros', 'Fragancia ligera y duradera diseñada especialmente para perros.', 6.99),
-(7, 'Peine para Pulgas', 'Peine de dientes finos para eliminar pulgas y huevos del pelaje.', 4.99),
-(8, 'Champú Antipulgas', 'Champú medicado para eliminar pulgas y aliviar la picazón.', 11.30),
-(9, 'Secador de Mano para Mascotas', 'Secador de aire templado con boquillas ajustables.', 35.00),
-(10, 'Guante Quitapelo', 'Guante de silicona que elimina el pelo suelto mientras se acaricia al animal.', 9.00),
-(11, 'Acondicionador en Spray', 'Desenredante sin enjuague que deja el pelaje brillante y suave.', 10.50),
-(12, 'Champú en Espuma Seco', 'Limpieza rápida sin agua, ideal para viajes o entre baños.', 7.80),
-(13, 'Esmalte de Uñas para Mascotas', 'Esmalte no tóxico de secado rápido para decorar las uñas.', 6.50),
-(14, 'Tijeras de Peluquería Curvas', 'Tijeras de acero inoxidable con punta redondeada para mayor seguridad.', 15.90),
-(15, 'Máquina Cortapelo Profesional', 'Cortadora de pelo silenciosa y potente para uso doméstico o profesional.', 49.99),
-(16, 'Champú Blanqueador para Pelaje Claro', 'Realza el brillo natural del pelaje blanco o claro sin decolorar.', 10.25),
-(17, 'Bálsamo para Almohadillas', 'Protege e hidrata las almohadillas resecas o agrietadas.', 6.80),
-(18, 'Deslanador para Razas de Pelo Largo', 'Herramienta especial para retirar el subpelo muerto sin dañar el pelaje.', 13.70),
-(19, 'Spray Antinudos', 'Evita y elimina nudos fácilmente, ideal para razas de pelo largo.', 9.95),
-(20, 'Perfume Natural para Gatos', 'Fragancia delicada sin alcohol, especialmente formulada para gatos.', 6.30);
+DROP TABLE IF EXISTS PEDIDOS_PRODUCTOS;
+CREATE TABLE PEDIDOS_PRODUCTOS (
+    id_pedido INT NOT NULL,
+    id_producto INT NOT NULL,
+    PRIMARY KEY (id_pedido, id_producto),
+    FOREIGN KEY (id_pedido) REFERENCES PEDIDOS(id_pedido) ON DELETE CASCADE,
+    FOREIGN KEY (id_producto) REFERENCES PRODUCTOS(id_producto) ON DELETE CASCADE
+);
 
--- AÑADIMOS LA COLUMNA TELEFONO A USUARIO --
+-- INSERCION DE TABLAS
+-- CLIENTES
+INSERT INTO CLIENTES (dni, nombre, apellido, email, password, telefono) VALUES
+('12345678A', 'Ana', 'García', 'ana@gmail.com', 'passana', '600123456'),
+('87654321B', 'Luis', 'Martínez', 'luis@gmail.com', 'passluis', '600654321');
 
-ALTER TABLE db_peluqueria.users 
-ADD COLUMN telefono int(9);
+-- EMPLEADOS
+INSERT INTO EMPLEADOS (dni, nombre, apellido, especialidad, telefono) VALUES
+('11223344C', 'Marta', 'López', 'Peluquería', '611223344'),
+('22334455D', 'Carlos', 'Ruiz', 'Veterinaria', '622334455');
 
--- AÑADIMOS NUMEROS A LOS USUARIOS --
+-- MASCOTAS
+INSERT INTO MASCOTAS (dni_cliente, nombre, raza, edad) VALUES
+('12345678A', 'Toby', 'Caniche', 3),
+('12345678A', 'Luna', 'Labrador', 5),
+('87654321B', 'Rocky', 'Bulldog', 2);
 
-UPDATE db_peluqueria.users SET telefono = '612345678' WHERE dni = "06296212P";
-UPDATE db_peluqueria.users SET telefono = '698745123' WHERE dni = "12345678A";
-UPDATE db_peluqueria.users SET telefono = '654321987' WHERE dni = "23456789B";
-UPDATE db_peluqueria.users SET telefono = '699887766' WHERE dni = "34567890C";
-UPDATE db_peluqueria.users SET telefono = '645231890' WHERE dni = "45678901D";
-UPDATE db_peluqueria.users SET telefono = '688901234' WHERE dni = "56789012E";
-UPDATE db_peluqueria.users SET telefono = '677554433' WHERE dni = "78901234G";
-UPDATE db_peluqueria.users SET telefono = '656778899' WHERE dni = "67890123F";
-UPDATE db_peluqueria.users SET telefono = '622334455' WHERE dni = "89012345H";
-UPDATE db_peluqueria.users SET telefono = '633112244' WHERE dni = "90123456I";
+-- PRODUCTOS
+INSERT INTO PRODUCTOS (nombre, descripcion, precio, stock) VALUES
+('Champú Canino', 'Champú especial para perros', 9.99, 50),
+('Cepillo', 'Cepillo para pelo largo', 5.50, 30),
+('Juguete', 'Pelota de goma', 3.75, 100);
 
+-- PEDIDOS
+INSERT INTO PEDIDOS (dni_cliente, fecha) VALUES
+('12345678A', '2025-06-03'),
+('87654321B', '2025-06-02');
+
+-- PEDIDOS_PRODUCTOS
+INSERT INTO PEDIDOS_PRODUCTOS (id_pedido, id_producto) VALUES
+(1, 1),
+(1, 2),
+(2, 3);
+
+-- CITAS
+INSERT INTO CITAS (dni_cliente, dni_empleado, id_mascota, fecha, hora) VALUES
+('12345678A', '11223344C', 1, '2025-06-05', '10:00:00'),
+('12345678A', '22334455D', 2, '2025-06-06', '12:00:00'),
+('87654321B', '11223344C', 3, '2025-06-07', '09:30:00');
