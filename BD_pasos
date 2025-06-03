@@ -57,7 +57,7 @@ CREATE TABLE PEDIDOS (
     id_pedido INT AUTO_INCREMENT PRIMARY KEY,
     telefono_cliente VARCHAR(20) NOT NULL,
     fecha DATE NOT NULL,
-    FOREIGN KEY (telefono_cliente) REFERENCES CLIENTES(telefono),
+    FOREIGN KEY (telefono_cliente) REFERENCES CLIENTES(telefono)
 );
 
 DROP TABLE IF EXISTS PEDIDOS_PRODUCTOS;
