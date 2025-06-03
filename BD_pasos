@@ -5,12 +5,11 @@ USE db_peluqueria_canina;
 -- CREACION DE TABLAS
 DROP TABLE IF EXISTS CLIENTES;
 CREATE TABLE CLIENTES (
-    dni VARCHAR(20) PRIMARY KEY,
+    telefono VARCHAR(20) PRIMARY KEY
     nombre VARCHAR(50) NOT NULL,
     apellido VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
-    telefono VARCHAR(20)
+    
 );
 
 DROP TABLE IF EXISTS EMPLEADOS;
@@ -25,22 +24,22 @@ CREATE TABLE EMPLEADOS (
 DROP TABLE IF EXISTS MASCOTAS;
 CREATE TABLE MASCOTAS (
     id_mascota INT AUTO_INCREMENT PRIMARY KEY,
-    dni_cliente VARCHAR(20) NOT NULL,
+    telefono_cliente VARCHAR(20) NOT NULL,
     nombre VARCHAR(50) NOT NULL,
     raza VARCHAR(50),
     edad INT,
-    FOREIGN KEY (dni_cliente) REFERENCES CLIENTES(dni)
+    FOREIGN KEY (telefono_cliente) REFERENCES CLIENTES(telefono)
 );
 
 DROP TABLE IF EXISTS CITAS;
 CREATE TABLE CITAS (
     id_cita INT AUTO_INCREMENT PRIMARY KEY,
-    dni_cliente VARCHAR(20) NOT NULL,
+    telefono_cliente VARCHAR(20) NOT NULL,
     dni_empleado VARCHAR(20) NOT NULL,
     id_mascota INT NOT NULL,
     fecha DATE NOT NULL,
     hora TIME NOT NULL,
-    FOREIGN KEY (dni_cliente) REFERENCES CLIENTES(dni),
+    FOREIGN KEY (telefono_cliente) REFERENCES CLIENTES(telefono)
     FOREIGN KEY (dni_empleado) REFERENCES EMPLEADOS(dni),
     FOREIGN KEY (id_mascota) REFERENCES MASCOTAS(id_mascota)
 );
@@ -57,9 +56,9 @@ CREATE TABLE PRODUCTOS (
 DROP TABLE IF EXISTS PEDIDOS;
 CREATE TABLE PEDIDOS (
     id_pedido INT AUTO_INCREMENT PRIMARY KEY,
-    dni_cliente VARCHAR(20) NOT NULL,
+    telefono_cliente VARCHAR(20) NOT NULL,
     fecha DATE NOT NULL,
-    FOREIGN KEY (dni_cliente) REFERENCES CLIENTES(dni)
+    FOREIGN KEY (telefono_cliente) REFERENCES CLIENTES(telefono)
 );
 
 DROP TABLE IF EXISTS PEDIDOS_PRODUCTOS;
@@ -73,40 +72,57 @@ CREATE TABLE PEDIDOS_PRODUCTOS (
 
 -- INSERCION DE TABLAS
 -- CLIENTES
-INSERT INTO CLIENTES (dni, nombre, apellido, email, password, telefono) VALUES
-('12345678A', 'Ana', 'García', 'ana@gmail.com', 'passana', '600123456'),
-('87654321B', 'Luis', 'Martínez', 'luis@gmail.com', 'passluis', '600654321');
+INSERT INTO CLIENTES (telefono, nombre, apellido, password) VALUES
+('600111222', 'Ana', 'García', 'passAna123'),
+('600333444', 'Luis', 'Martínez', 'passLuis456'),
+('600555666', 'Marta', 'López', 'passMarta789'),
+('600777888', 'Carlos', 'Sánchez', 'passCarlos321'),
+('600999000', 'Elena', 'Ruiz', 'passElena654');
 
 -- EMPLEADOS
 INSERT INTO EMPLEADOS (dni, nombre, apellido, especialidad, telefono) VALUES
-('11223344C', 'Marta', 'López', 'Peluquería', '611223344'),
-('22334455D', 'Carlos', 'Ruiz', 'Veterinaria', '622334455');
+('12345678A', 'Pedro', 'Fernández', 'Corte', '611111111'),
+('23456789B', 'Lucía', 'Moreno', 'Baño', '622222222'),
+('34567890C', 'Javier', 'Pérez', 'Peluquería', '633333333'),
+('45678901D', 'Sara', 'Gómez', 'Uñas', '644444444'),
+('56789012E', 'David', 'Díaz', 'Adiestramiento', '655555555');
 
 -- MASCOTAS
-INSERT INTO MASCOTAS (dni_cliente, nombre, raza, edad) VALUES
-('12345678A', 'Toby', 'Caniche', 3),
-('12345678A', 'Luna', 'Labrador', 5),
-('87654321B', 'Rocky', 'Bulldog', 2);
+INSERT INTO MASCOTAS (telefono_cliente, nombre, raza, edad) VALUES
+('600111222', 'Toby', 'Labrador', 3),
+('600333444', 'Luna', 'Caniche', 2),
+('600555666', 'Max', 'Bulldog', 5),
+('600777888', 'Nala', 'Beagle', 4),
+('600999000', 'Rocky', 'Pastor Alemán', 1);
+
+-- CITAS
+INSERT INTO CITAS (telefono_cliente, dni_empleado, id_mascota, fecha, hora) VALUES
+('600111222', '12345678A', 1, '2025-06-10', '10:00'),
+('600333444', '23456789B', 2, '2025-06-11', '11:00'),
+('600555666', '34567890C', 3, '2025-06-12', '12:00'),
+('600777888', '45678901D', 4, '2025-06-13', '13:00'),
+('600999000', '56789012E', 5, '2025-06-14', '14:00');
 
 -- PRODUCTOS
 INSERT INTO PRODUCTOS (nombre, descripcion, precio, stock) VALUES
 ('Champú Canino', 'Champú especial para perros', 9.99, 50),
-('Cepillo', 'Cepillo para pelo largo', 5.50, 30),
-('Juguete', 'Pelota de goma', 3.75, 100);
+('Cepillo', 'Cepillo para pelo largo', 7.50, 30),
+('Juguete Mordedor', 'Juguete de goma resistente', 5.00, 100),
+('Collar Antipulgas', 'Collar para prevenir pulgas', 12.00, 20),
+('Snacks', 'Premios para perros', 3.50, 200);
 
 -- PEDIDOS
-INSERT INTO PEDIDOS (dni_cliente, fecha) VALUES
-('12345678A', '2025-06-03'),
-('87654321B', '2025-06-02');
+INSERT INTO PEDIDOS (telefono_cliente, fecha) VALUES
+('600111222', '2025-06-01'),
+('600333444', '2025-06-02'),
+('600555666', '2025-06-03'),
+('600777888', '2025-06-04'),
+('600999000', '2025-06-05');
 
 -- PEDIDOS_PRODUCTOS
 INSERT INTO PEDIDOS_PRODUCTOS (id_pedido, id_producto) VALUES
 (1, 1),
-(1, 2),
-(2, 3);
-
--- CITAS
-INSERT INTO CITAS (dni_cliente, dni_empleado, id_mascota, fecha, hora) VALUES
-('12345678A', '11223344C', 1, '2025-06-05', '10:00:00'),
-('12345678A', '22334455D', 2, '2025-06-06', '12:00:00'),
-('87654321B', '11223344C', 3, '2025-06-07', '09:30:00');
+(1, 3),
+(2, 2),
+(3, 4),
+(4, 5);
