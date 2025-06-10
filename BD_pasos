@@ -47,13 +47,18 @@ CREATE TABLE CITAS (
     FOREIGN KEY (dni_empleado) REFERENCES EMPLEADOS(dni),
     FOREIGN KEY (id_mascota) REFERENCES MASCOTAS(id_mascota)
 );
+CREATE TABLE CATEGORIAS(
+id_categoria INT AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(100) NOT NULL);
 
 CREATE TABLE PRODUCTOS (
     id_producto INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     descripcion TEXT,
     precio DECIMAL(10,2) NOT NULL,
-    stock INT NOT NULL
+    id_categoria INT,
+    stock INT NOT NULL,
+    FOREIGN KEY (id_categoria) REFERENCES CATEGORIAS(id_categoria)
 );
 
 CREATE TABLE PEDIDOS (
