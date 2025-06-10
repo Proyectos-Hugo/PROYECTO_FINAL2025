@@ -1,15 +1,21 @@
+-- 1. BORRAR BASE DE DATOS ANTIGUA (si existe)
+DROP DATABASE IF EXISTS db_peluqueria_canina;
+
+-- 2. CREAR BASE DE DATOS Y USARLA
 CREATE DATABASE db_peluqueria_canina;
 USE db_peluqueria_canina;
 
--- CREACION DE TABLAS
-
+-- 3. BORRAR TABLAS SI EXISTEN (orden correcto por claves foráneas)
 DROP TABLE IF EXISTS PEDIDOS_PRODUCTOS;
 DROP TABLE IF EXISTS PEDIDOS;
 DROP TABLE IF EXISTS PRODUCTOS;
+DROP TABLE IF EXISTS CATEGORIAS;
 DROP TABLE IF EXISTS CITAS;
 DROP TABLE IF EXISTS MASCOTAS;
 DROP TABLE IF EXISTS EMPLEADOS;
 DROP TABLE IF EXISTS CLIENTES;
+
+-- 4. CREAR TABLAS
 
 CREATE TABLE CLIENTES (
     email VARCHAR(100) PRIMARY KEY,
@@ -47,9 +53,11 @@ CREATE TABLE CITAS (
     FOREIGN KEY (dni_empleado) REFERENCES EMPLEADOS(dni),
     FOREIGN KEY (id_mascota) REFERENCES MASCOTAS(id_mascota)
 );
-CREATE TABLE CATEGORIAS(
-id_categoria INT AUTO_INCREMENT PRIMARY KEY,
-nombre VARCHAR(100) NOT NULL);
+
+CREATE TABLE CATEGORIAS (
+    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL
+);
 
 CREATE TABLE PRODUCTOS (
     id_producto INT AUTO_INCREMENT PRIMARY KEY,
@@ -77,7 +85,15 @@ CREATE TABLE PEDIDOS_PRODUCTOS (
     FOREIGN KEY (id_producto) REFERENCES PRODUCTOS(id_producto) ON DELETE CASCADE
 );
 
--- INSERCIONES
+-- 5. INSERCIONES INICIALES
+
+-- CATEGORIAS
+INSERT INTO CATEGORIAS (nombre) VALUES
+('Higiene'),
+('Accesorios'),
+('Juguetes'),
+('Salud'),
+('Alimentación');
 
 -- CLIENTES
 INSERT INTO CLIENTES (email, nombre, apellido, password, telefono) VALUES
@@ -111,13 +127,13 @@ INSERT INTO CITAS (email_cliente, dni_empleado, id_mascota, fecha, hora) VALUES
 ('carlos@gmail.com', '45678901D', 4, '2025-06-13', '13:00'),
 ('elena@gmail.com', '56789012E', 5, '2025-06-14', '14:00');
 
--- PRODUCTOS
-INSERT INTO PRODUCTOS (nombre, descripcion, precio, stock) VALUES
-('Champú Canino', 'Champú especial para perros', 9.99, 50),
-('Cepillo', 'Cepillo para pelo largo', 7.50, 30),
-('Juguete Mordedor', 'Juguete de goma resistente', 5.00, 100),
-('Collar Antipulgas', 'Collar para prevenir pulgas', 12.00, 20),
-('Snacks', 'Premios para perros', 3.50, 200);
+-- PRODUCTOS (con id_categoria)
+INSERT INTO PRODUCTOS (nombre, descripcion, precio, id_categoria, stock) VALUES
+('Champú Canino', 'Champú especial para perros', 9.99, 1, 50),           -- Higiene
+('Cepillo', 'Cepillo para pelo largo', 7.50, 1, 30),                     -- Higiene
+('Juguete Mordedor', 'Juguete de goma resistente', 5.00, 3, 100),        -- Juguetes
+('Collar Antipulgas', 'Collar para prevenir pulgas', 12.00, 4, 20),      -- Salud
+('Snacks', 'Premios para perros', 3.50, 5, 200);                         -- Alimentación
 
 -- PEDIDOS
 INSERT INTO PEDIDOS (email_cliente, fecha) VALUES
@@ -127,10 +143,10 @@ INSERT INTO PEDIDOS (email_cliente, fecha) VALUES
 ('carlos@gmail.com', '2025-06-04'),
 ('elena@gmail.com', '2025-06-05');
 
--- PEDIDOS_PRODUCTOS
-INSERT INTO PEDIDOS_PRODUCTOS (id_pedido, id_producto) VALUES
-(1, 1),
-(1, 3),
-(2, 2),
-(3, 4),
-(4, 5);
+-- PEDIDOS_PRODUCTOS (con cantidad)
+INSERT INTO PEDIDOS_PRODUCTOS (id_pedido, id_producto, cantidad) VALUES
+(1, 1, 2),
+(1, 3, 1),
+(2, 2, 1),
+(3, 4, 1),
+(4, 5, 3);
