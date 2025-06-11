@@ -1,3 +1,4 @@
+CREATE USER 'nestuser'@'localhost' IDENTIFIED BY 'passuser'
 -- 1. BORRAR BASE DE DATOS ANTIGUA (si existe)
 DROP DATABASE IF EXISTS db_peluqueria_canina;
 
