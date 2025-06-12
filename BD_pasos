@@ -8,7 +8,7 @@ USE db_peluqueria_canina;
 
 -- 2.1. CREAR USUARIOS
 DROP USER 'nestuser'@'localhost';
-CREATE USER 'nestuser'@'localhost' IDENTIFIED BY 'passuser';
+CREATE USER 'nestuser'@'localhost' IDENTIFIED BY 'nestpass';
 GRANT ALL PRIVILEGES ON db_peluqueria_canina.* TO 'nestuser'@'localhost';
 FLUSH PRIVILEGES;
 
