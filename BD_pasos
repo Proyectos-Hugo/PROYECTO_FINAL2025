@@ -1,13 +1,16 @@
-DROP USER 'nestuser'@'localhost';
-CREATE USER 'nestuser'@'localhost' IDENTIFIED BY 'passuser';
-GRANT ALL PRIVILEGES ON db_peluqueria_canina.* TO 'nestuser'@'localhost';
-FLUSH PRIVILEGES;
+
 -- 1. BORRAR BASE DE DATOS ANTIGUA (si existe)
 DROP DATABASE IF EXISTS db_peluqueria_canina;
 
 -- 2. CREAR BASE DE DATOS Y USARLA
 CREATE DATABASE db_peluqueria_canina;
 USE db_peluqueria_canina;
+
+-- 2.1. CREAR USUARIOS
+DROP USER 'nestuser'@'localhost';
+CREATE USER 'nestuser'@'localhost' IDENTIFIED BY 'passuser';
+GRANT ALL PRIVILEGES ON db_peluqueria_canina.* TO 'nestuser'@'localhost';
+FLUSH PRIVILEGES;
 
 -- 3. BORRAR TABLAS SI EXISTEN (orden correcto por claves foráneas)
 DROP TABLE IF EXISTS PEDIDOS_PRODUCTOS;
