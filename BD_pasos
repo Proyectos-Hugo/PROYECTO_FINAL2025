@@ -28,8 +28,8 @@ CREATE TABLE CLIENTES (
     email VARCHAR(100) PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     apellido VARCHAR(50),
-    password VARCHAR(100),
-    telefono VARCHAR(20)
+    telefono VARCHAR(20),
+    password VARCHAR(100)
 );
 
 CREATE TABLE EMPLEADOS (
