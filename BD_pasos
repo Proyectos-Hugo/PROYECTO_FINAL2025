@@ -46,7 +46,7 @@ CREATE TABLE MASCOTAS (
     nombre VARCHAR(50) NOT NULL,
     raza VARCHAR(50),
     edad INT,
-    FOREIGN KEY (email_cliente) REFERENCES CLIENTES(email)
+    FOREIGN KEY (email_cliente) REFERENCES CLIENTES(email) ON DELETE CASCADE
 );
 
 CREATE TABLE CITAS (
